@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 """
 --------------------------------------------------------------------------
 Blink USR3 LED
@@ -37,13 +36,16 @@ THE POSSIBILITY OF SUCH DAMAGE.
 --------------------------------------------------------------------------
 Simple program that blinks USR3 LED on PocketBeagle at 5 Hz
 """
+# Add import statements to access Python library functions.
 import Adafruit_BBIO.GPIO as GPIO
 import time
 
+# Setup correct LED as an output.
 GPIO.setup("USR3", GPIO.OUT)
 
+# Blink LED at 5 Hz. 
 while True:
-        GPIO.output("USR3", GPIO.HIGH)
-        time.sleep(0.1)
-        GPIO.output("USR3", GPIO.LOW)
-        time.sleep(0.1)
+    GPIO.output("USR3", GPIO.HIGH)
+    time.sleep(0.1)
+    GPIO.output("USR3", GPIO.LOW)
+    time.sleep(0.1)
