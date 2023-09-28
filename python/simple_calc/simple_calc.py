@@ -1,10 +1,12 @@
-# -*- coding: utf-8 -*-
 """
 --------------------------------------------------------------------------
 Simple Calculator
 --------------------------------------------------------------------------
-License:   
+Author: Shannon McGill (svm4 [at] rice [dot] edu)
+
 Copyright 2023 - Shannon McGill
+
+License:   
 
 Redistribution and use in source and binary forms, with or without 
 modification, are permitted provided that the following conditions are met:
@@ -44,17 +46,22 @@ Operations:
   - "-" : subtraction
   - "*" : multiplication
   - "/" : division
+  - ">>" : right shift
+  - "<<" : left shift
+  - "%" : modulo
+  - "**" : exponentiation
 
 Error conditions:
   - Invalid operator --> Program should exit
   - Invalid number   --> Program should exit
 
+This calculator is compatible in both Python 2 and Python 3. 
 --------------------------------------------------------------------------
 """
 
-# NOTE - Add import statements to allow access to Python library functions
-# NOTE - Hint:  Look at  
+# Add import statements to allow access to Python library functions. 
 import operator
+import sys
 
 # ------------------------------------------------------------------------
 # Constants
@@ -74,7 +81,11 @@ operators = {
     "+" : operator.add,
     "-" : operator.sub,
     "*" : operator.mul,
-    "/" : operator.truediv
+    "/" : operator.truediv,
+    ">>" : operator.rshift,
+    "<<" : operator.lshift,
+    "%" : operator.mod,
+    "**" : operator.pow
 }
 
 
@@ -90,24 +101,23 @@ def get_user_input():
     """
     # NOTE - Use "try"/"except" statements to allow code to handle errors gracefully.      
     try:
-        # NOTE - Use "pass" statements to allow code to be run without having to 
-        # NOTE - fill out the contents.  This pass statement should be removed    
-        num1 = float(input("Enter first number: "))
-        num2 = float(input("Enter second number: "))
-        func = input("Enter function     : ")
+        # If statement allows for Python 2 and Python 3 compatibility. 
+        if sys.version_info[0] >= 3:
+            num1 = float(input("Enter first number: "))
+            num2 = float(input("Enter second number: "))
+            func = input("Enter function     : ")
+        else:
+            num1 = float(raw_input("Enter first number: "))
+            num2 = float(raw_input("Enter second number: "))
+            func = raw_input("Enter function     : ")   
         
         op = operators[func]
         
         return (num1, num2, op)
         
-        # NOTE - User input is generally returned as a string and must be translated.
     except:
         print("Invalid Input")
         return (None, None, None)
-
-# End def
-
-
 
 # ------------------------------------------------------------------------
 # Main script
@@ -124,19 +134,23 @@ def get_user_input():
 
 if __name__ == "__main__":
 
-    # NOTE - Need to add main calculator functionality:
-    # NOTE -   - Use a loop construct to repeat the operation
-    # NOTE -   - Get the input from the user (i.e. use function created above)    
-    # NOTE -   - Check that all inputs are valid (exit the program if inputs invalid)
-    # NOTE -   - Execute the function on the numbers and print the results
-    
-    while True:
+# This is the main calculator functionality.
+
+    while True: 
         (num1, num2, func) = get_user_input()
         
+        # Check inputs and exit program if any input is invalid.
         if (num1 == None) or (num2 == None)  or (func == None):
             print("Invalid Input!")
             break
         
+        # If right or left shift is selected, convert data type to integer instead 
+        # of a floating point number. 
+        if (func == operator.rshift) or (func == operator.lshift):
+            num1=int(num1)
+            num2=int(num2)
+            
+        # If all three inputs are valid, perform correct operation.     
         print(func(num1,num2))
 
 
