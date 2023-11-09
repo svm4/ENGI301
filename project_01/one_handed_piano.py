@@ -150,14 +150,22 @@ class OneHandedPiano():
         while(1):
             time.sleep(0.1)
             if self.button_pressed(self.green):
+                self.red.off()
                 self.green.off()
                 self.blue.off()
-                self.learn_mode()
+                return_value=self.learn_mode()
         
             if self.button_pressed(self.blue):
+                self.red.off()
                 self.green.off()
                 self.blue.off()
                 self.practice_mode()
+            
+            if self.button_pressed(self.red):
+                self.red.off()
+                self.green.off()
+                self.blue.off()
+                self.cleanup()
     # End def
 
 
@@ -184,13 +192,21 @@ class OneHandedPiano():
     def learn_mode(self):
         """
         """
-        print("Learn mode")
         rounds=self.number_rounds() 
         current_round=1
         for i in range(rounds):
             notes_for_round,times_for_round,colors_for_round=self.get_rounds_notes(current_round, rounds)
             note=0
+            self.screen.image("Memorize Screen.jpg", 270)
+            time.sleep(2)
             for i in range(len(notes_for_round)):
+                if (note > (len(notes_for_round)-1) and current_round==rounds):
+                    self.screen.image("Song Learned Screen.jpg", 270) #why is this not working even though it is returning?
+                    self.red.on()
+                    self.green.on()
+                    self.blue.on()
+                    time.sleep(1)
+                    return
                 if note > (len(notes_for_round)-1):
                     break
                 else:
@@ -199,18 +215,71 @@ class OneHandedPiano():
                     colors_for_round[note].off()
                     time.sleep(0.1)
                     note=note+1
+            play_note=0
+            self.screen.image("Play Screen.jpg", 270)
+            for i in range(len(notes_for_round)):
+                if play_note > (len(notes_for_round)-1):
+                    self.screen.image("Next Round Screen.jpg", 270)
+                    break
+                elif self.button_pressed(colors_for_round[play_note]):
+                    colors_for_round[play_note].on()
+                    time.sleep(times_for_round[play_note])
+                    colors_for_round[play_note].off()
+                    time.sleep(0.1)
+                    play_note=play_note+1
             current_round=current_round+1
     
     # End def
-
-
+    
     def practice_mode(self):
         """
         """
-    print("Practice mode")
+        print("Practice mode")
     # End def
 
-
+    def button_pressed_with_error_message(self, goal_button):
+        """Unlock the lock.
+               - Turn off red LED; Turn on green LED
+               - Set servo to open
+               - Set display to "----"
+        """
+        initial_time=time.time()
+        while time.time()-initial_time < self.timeout:
+            for b in self.button_list:
+                if b.is_pressed():
+                    if b == goal_button:
+                        return True
+                    else:
+                        self.screen.image("Wrong Button Screen.jpg", 270)
+                        self.red.on()
+                        self.green.on()
+                        self.blue.on()
+                        self.buzzer.play(440, 1.0, True)
+                        time.sleep(1)
+                        if self.button_pressed(self.green):
+                            self.red.off()
+                            self.green.off()
+                            self.blue.off()
+                            return False
+        
+                        if self.button_pressed(self.blue):
+                            self.red.off
+                            self.green.off()
+                            self.blue.off()
+                            return_value=1
+                            return return_value
+                            
+                        if self.button_pressed(self.red):
+                            self.red.off
+                            self.green.off()
+                            self.blue.off()
+                            return_value=2
+                            return return_value
+            time.sleep(0.01)
+        return False
+            
+    # End def
+    
     def number_rounds(self):
         """Execute the main program."""
         number_notes=len(self.notes)
@@ -236,7 +305,7 @@ class OneHandedPiano():
     def cleanup(self):
         """Cleanup the hardware components."""
         
-
+        print("Cleanup")
     # End def
 
 # End class
