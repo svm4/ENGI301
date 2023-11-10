@@ -108,7 +108,7 @@ class Buzzer():
     # End def
 
     
-    def cleanup(self):
+    def buzzer_cleanup(self):
         """Stops the buzzer and cleans up the PWM.
              *** This function must be called during hardware cleanup ***
         """
@@ -134,6 +134,6 @@ if __name__ == '__main__':
     buzzer.play(880, 1.0, True)       # Play 440Hz for 1 second
     time.sleep(1.0)   
 
-    buzzer.cleanup()
+    buzzer.buzzer_cleanup()
     
     print("Test Complete")
