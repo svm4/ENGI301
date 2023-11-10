@@ -80,8 +80,8 @@ class ColorButton(led.LED, threaded_button.ThreadedButton):
         led.LED.__init__(self, led_pin, True)
     # End def
     
-    def buttoncleanup(self):
-        threaded_button.ThreadedButton.cleanup(self)
+    def button_cleanup(self):
+        #threaded_button.ThreadedButton.cleanup(self)
         led.LED.led_cleanup(self)
     # End def
 
