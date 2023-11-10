@@ -59,6 +59,9 @@ Uses: FIX THIS
 """
 import time
 import math
+import numpy
+import sounddevice
+import os
 import buzzer
 import screen
 import threaded_button
@@ -122,6 +125,13 @@ class OneHandedPiano():
             songs.NOTE_F4: self.green,
             songs.NOTE_G4: self.blue
             }
+        self.reverse_Note_Map = {
+            self.white:songs.NOTE_C4,
+            self.red:songs.NOTE_D4,
+            self.yellow:songs.NOTE_E4,
+            self.green:songs.NOTE_F4,
+            self.blue:songs.NOTE_G4
+            }
         
         
         self._setup()
@@ -137,6 +147,7 @@ class OneHandedPiano():
         self.red.on()
         self.green.on()
         self.blue.on()
+        os.system("amixer set PCM 50%") #sets volume at 50%
 
         # Arcade Buttons
         #   - All initialized by libraries when instanitated
@@ -247,6 +258,12 @@ class OneHandedPiano():
             
     # End def
 
+    def play_note(self, note, time):
+        tone=numpy.sin(2*numpy.pi*note*numpy.arange(0,time,1/44100))
+        sounddevice.play(tone, 44100)
+        sounddevice.wait() #waits until tone is finished to exit function 
+    # End def
+    
     def button_pressed_with_error_message(self, goal_button):
         """Unlock the lock.
                - Turn off red LED; Turn on green LED
@@ -316,6 +333,8 @@ class OneHandedPiano():
                 while True:
                     if b.is_pressed():
                         b.on()
+                        self.play_note(self.reverse_Note_Map[b],1)
+                        
                     else:
                         b.off()
                         press_duration=time.time()-initial_time
