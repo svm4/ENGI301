@@ -134,6 +134,7 @@ class OneHandedPiano():
 
         # Initialize Display, Turn on Initial Two Buttons
         self.screen.image("Welcome Screen.jpg", 270)
+        self.red.on()
         self.green.on()
         self.blue.on()
 
@@ -153,7 +154,7 @@ class OneHandedPiano():
                 self.red.off()
                 self.green.off()
                 self.blue.off()
-                return_value=self.learn_mode()
+                self.learn_mode()
         
             if self.button_pressed(self.blue):
                 self.red.off()
@@ -221,12 +222,11 @@ class OneHandedPiano():
                 if play_note > (len(notes_for_round)-1):
                     self.screen.image("Next Round Screen.jpg", 270)
                     break
-                elif self.button_pressed(colors_for_round[play_note]):
-                    colors_for_round[play_note].on()
-                    time.sleep(times_for_round[play_note])
-                    colors_for_round[play_note].off()
+                elif self.button_pressed_with_error_message(colors_for_round[play_note]):
                     time.sleep(0.1)
                     play_note=play_note+1
+                else:
+                    return
             current_round=current_round+1
     
     # End def
@@ -234,7 +234,17 @@ class OneHandedPiano():
     def practice_mode(self):
         """
         """
-        print("Practice mode")
+        self.screen.image("Practice Screen.jpg",270)
+        while(1):
+            time.sleep(0.1)
+            press_duration=self.practice_button_pressed() #how do I get this to be just the red button?
+            if (isinstance(press_duration,float) and press_duration > self.timeout):
+                self.screen.image("Welcome Screen.jpg", 270)
+                self.red.on()
+                self.green.on()
+                self.blue.on()
+                return
+            
     # End def
 
     def button_pressed_with_error_message(self, goal_button):
@@ -248,7 +258,12 @@ class OneHandedPiano():
             for b in self.button_list:
                 if b.is_pressed():
                     if b == goal_button:
-                        return True
+                        while True:
+                            if goal_button.is_pressed():
+                                goal_button.on()
+                            else:
+                                goal_button.off()
+                                return True
                     else:
                         self.screen.image("Wrong Button Screen.jpg", 270)
                         self.red.on()
@@ -256,26 +271,14 @@ class OneHandedPiano():
                         self.blue.on()
                         self.buzzer.play(440, 1.0, True)
                         time.sleep(1)
-                        if self.button_pressed(self.green):
-                            self.red.off()
-                            self.green.off()
-                            self.blue.off()
-                            return False
-        
-                        if self.button_pressed(self.blue):
-                            self.red.off
-                            self.green.off()
-                            self.blue.off()
-                            return_value=1
-                            return return_value
-                            
-                        if self.button_pressed(self.red):
-                            self.red.off
-                            self.green.off()
-                            self.blue.off()
-                            return_value=2
-                            return return_value
+                        return False
             time.sleep(0.01)
+        self.screen.image("Timeout Screen.jpg", 270)
+        self.red.on()
+        self.green.on()
+        self.blue.on()
+        self.buzzer.play(440, 1.0, True)
+        time.sleep(1)
         return False
             
     # End def
@@ -300,12 +303,38 @@ class OneHandedPiano():
         return notes_for_round, times_for_round, colors_for_round
     # End def
 
-
+    def practice_button_pressed(self):
+        """Unlock the lock.
+               - Turn off red LED; Turn on green LED
+               - Set servo to open
+               - Set display to "----"
+        """
+        for b in self.button_list:
+            if b.is_pressed():
+                initial_time=time.time()
+                button=b
+                while True:
+                    if b.is_pressed():
+                        b.on()
+                    else:
+                        b.off()
+                        press_duration=time.time()-initial_time
+                        return press_duration
+            
+    # End def
 
     def cleanup(self):
         """Cleanup the hardware components."""
         
         print("Cleanup")
+        self.buzzer.buzzer_cleanup()
+        self.screen.blank()
+        self.white.button_cleanup()
+        self.red.button_cleanup()
+        self.yellow.button_cleanup()
+        self.green.button_cleanup()
+        self.blue.button_cleanup()
+        exit()
     # End def
 
 # End class
