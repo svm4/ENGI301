@@ -37,6 +37,9 @@ Use the following hardware components to make a one-handed piano:
   - Arcade Buttons (White, Red, Yellow, Green, Blue)
   - Buzzer
 
+Software API: 
+
+
 Requirements:
   - Hardware: FIX THIS
     - When locked:   Red LED is on; Green LED is off; Servo is "closed"; Display is unchanged
@@ -154,7 +157,6 @@ class OneHandedPiano():
 
     # End def
 
-
     def run(self):
         """Run Function
         """
@@ -178,8 +180,8 @@ class OneHandedPiano():
                 self.green.off()
                 self.blue.off()
                 self.cleanup()
+                
     # End def
-
 
     def button_pressed(self, goal_button):
         """Unlock the lock.
@@ -200,7 +202,6 @@ class OneHandedPiano():
             
     # End def
 
-
     def learn_mode(self):
         """
         """
@@ -212,13 +213,6 @@ class OneHandedPiano():
             self.screen.image("Memorize Screen.jpg", 270)
             time.sleep(2)
             for i in range(len(notes_for_round)):
-                if (note > (len(notes_for_round)-1) and current_round==rounds):
-                    self.screen.image("Song Learned Screen.jpg", 270) #why is this not working even though it is returning?
-                    self.red.on()
-                    self.green.on()
-                    self.blue.on()
-                    time.sleep(1)
-                    return
                 if note > (len(notes_for_round)-1):
                     break
                 else:
@@ -227,44 +221,31 @@ class OneHandedPiano():
                     colors_for_round[note].off()
                     time.sleep(0.1)
                     note=note+1
-            play_note=0
+            played_note=0 # will have to add some code here to make them play whole song each time
             self.screen.image("Play Screen.jpg", 270)
             for i in range(len(notes_for_round)):
-                if play_note > (len(notes_for_round)-1):
+                if (played_note == (len(self.notes)-1) and current_round == rounds):
+                    self.button_pressed_with_error_message(colors_for_round[played_note],notes_for_round[played_note],times_for_round[played_note])
+                    time.sleep(0.1)
+                    self.screen.image("Song Learned Screen.jpg", 270) #why is this not working even though it is returning?
+                    self.red.on()
+                    self.green.on()
+                    self.blue.on()
+                    time.sleep(1)
+                    return
+                if played_note > (len(notes_for_round)-1):
                     self.screen.image("Next Round Screen.jpg", 270)
                     break
-                elif self.button_pressed_with_error_message(colors_for_round[play_note]):
+                elif self.button_pressed_with_error_message(colors_for_round[played_note],notes_for_round[played_note],times_for_round[played_note]):
                     time.sleep(0.1)
-                    play_note=play_note+1
+                    played_note=played_note+1
                 else:
                     return
             current_round=current_round+1
-    
-    # End def
-    
-    def practice_mode(self):
-        """
-        """
-        self.screen.image("Practice Screen.jpg",270)
-        while(1):
-            time.sleep(0.1)
-            press_duration=self.practice_button_pressed() #how do I get this to be just the red button?
-            if (isinstance(press_duration,float) and press_duration > self.timeout):
-                self.screen.image("Welcome Screen.jpg", 270)
-                self.red.on()
-                self.green.on()
-                self.blue.on()
-                return
             
     # End def
-
-    def play_note(self, note, time):
-        tone=numpy.sin(2*numpy.pi*note*numpy.arange(0,time,1/44100))
-        sounddevice.play(tone, 44100)
-        sounddevice.wait() #waits until tone is finished to exit function 
-    # End def
     
-    def button_pressed_with_error_message(self, goal_button):
+    def button_pressed_with_error_message(self, goal_button, note, note_time):
         """Unlock the lock.
                - Turn off red LED; Turn on green LED
                - Set servo to open
@@ -275,12 +256,15 @@ class OneHandedPiano():
             for b in self.button_list:
                 if b.is_pressed():
                     if b == goal_button:
+                        pressed_time=time.time()
+                        goal_button.on()
+                        self.play_note(note,5)
                         while True:
-                            if goal_button.is_pressed():
-                                goal_button.on()
-                            else:
+                            if not goal_button.is_pressed():
                                 goal_button.off()
+                                self.stop_note()
                                 return True
+                            time.sleep(0.1)
                     else:
                         self.screen.image("Wrong Button Screen.jpg", 270)
                         self.red.on()
@@ -305,19 +289,36 @@ class OneHandedPiano():
         number_notes=len(self.notes)
         rounds=math.ceil(number_notes/4)
         return rounds
+        
     # End def
-
 
     def get_rounds_notes(self, current_round, rounds):
         """Set display to word "Prog" """
         if current_round == rounds:
-            get_current_round_notes=self.notes[(current_round*4-4):len(self.notes)]
+            get_current_round_notes=self.notes[0:len(self.notes)]
         else:
-            get_current_round_notes=self.notes[(current_round*4-4):(current_round*4)]
+            get_current_round_notes=self.notes[0:(current_round*4)]
         notes_for_round=[pitch[0] for pitch in get_current_round_notes]
         times_for_round=[time[1] for time in get_current_round_notes]
         colors_for_round=[self.Note_Map[note] for note in notes_for_round if note in self.Note_Map]
         return notes_for_round, times_for_round, colors_for_round
+        
+    # End def
+    
+    def practice_mode(self):
+        """
+        """
+        self.screen.image("Practice Screen.jpg",270)
+        while(1):
+            time.sleep(0.1)
+            (button, press_duration)=self.practice_button_pressed() #how do I get this to be just the red button?
+            if (isinstance(press_duration,float) and press_duration > self.timeout and (button==self.red)):
+                self.screen.image("Welcome Screen.jpg", 270)
+                self.red.on()
+                self.green.on()
+                self.blue.on()
+                return
+            
     # End def
 
     def practice_button_pressed(self):
@@ -329,17 +330,27 @@ class OneHandedPiano():
         for b in self.button_list:
             if b.is_pressed():
                 initial_time=time.time()
-                button=b
+                b.on()
+                self.play_note(self.reverse_Note_Map[b],7)
                 while True:
-                    if b.is_pressed():
-                        b.on()
-                        self.play_note(self.reverse_Note_Map[b],1)
-                        
-                    else:
+                    if not b.is_pressed():
                         b.off()
+                        self.stop_note()
                         press_duration=time.time()-initial_time
-                        return press_duration
-            
+                        return (b, press_duration)
+        return (None,0)
+        
+    # End def
+    
+    def play_note(self, note, time):
+        tone=numpy.sin(2*numpy.pi*note*numpy.arange(0,time,1/44100))
+        sounddevice.play(tone, 44100)
+        
+    # End def
+    
+    def stop_note(self):
+        sounddevice.stop()
+        
     # End def
 
     def cleanup(self):
@@ -354,6 +365,7 @@ class OneHandedPiano():
         self.green.button_cleanup()
         self.blue.button_cleanup()
         exit()
+        
     # End def
 
 # End class
