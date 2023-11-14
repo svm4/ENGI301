@@ -7,6 +7,7 @@ All hardware information for this project is documented on my Hackster.io page l
 A few of my hardware components require installation of certain libraries in order to run properly. Install these libraries before running my project's code. 
 
 <h3> SPI Screen: </h3>
+
 - sudo apt-get update
 - sudo pip3 install --upgrade Pillow
 - sudo pip3 install adafruit-circuitpython-busdevice
