@@ -1,6 +1,6 @@
 """
 --------------------------------------------------------------------------
-Color Button Driver
+Color Button Library
 --------------------------------------------------------------------------
 License:   
 Copyright 2023 - Shannon McGill
@@ -31,15 +31,15 @@ OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 --------------------------------------------------------------------------
 
-Color Button Driver
+Color Button Library
 
-  This driver is built to link a colored LED with a button for the arcade
+  This library is built to link a colored LED with a button for the arcade
 buttons in my project.
 
 Software API:
 
   ColorButton(led_pin, button_pin)
-    - Provide pin that the LED and button are connected to
+    - Provide pins that the LED and button are connected to
 
 """
 import led 
