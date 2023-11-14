@@ -33,6 +33,11 @@ USB Speaker:
 - sudo pip3 install libportaudio2
 - sudo pip3 install libasound-dev
 - [change to sudo]
+
+From here, you can test the speaker's ability to play a tone by running the following commands in the terminal.
+
+- note = numpy.sin(2 * numpy * 440 * numpy.arange(0, 1, 1/44100)
+- sounddevice.play(note, 44100)
   
 <h2> Software Operation Instructions </h2>
 [finish]
