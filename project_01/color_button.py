@@ -33,23 +33,13 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 Color Button Driver
 
-  This driver is built for LEDs that are connected directly to the processor pin 
-(i.e. the LED is ON when the output is "High"/"1" and OFF when the output is 
-"Low" / "0")
+  This driver is built to link a colored LED with a button for the arcade
+buttons in my project.
 
 Software API:
 
-  LED(pin)
-    - Provide pin that the LED is connected
-    
-    is_on()
-      - Return a boolean value (i.e. True/False) if the LED is ON / OFF
-
-    on()
-      - Turn the LED on
-
-    off()
-      - Turn the LED off    
+  ColorButton(led_pin, button_pin)
+    - Provide pin that the LED and button are connected to
 
 """
 import led 
@@ -81,17 +71,19 @@ class ColorButton(led.LED, threaded_button.ThreadedButton):
     # End def
     
     def button_cleanup(self):
-        #threaded_button.ThreadedButton.cleanup(self)
+        """ Cleanup function to turn off LED """
         led.LED.led_cleanup(self)
     # End def
 
 # End class
+
 
 # ------------------------------------------------------------------------
 # Main script
 # ------------------------------------------------------------------------
 
 if __name__ == "__main__":
+# Test code to check if the button flashes on and off properly
   coloredbutton=ColorButton("P2_2","P2_1")
   coloredbutton.on()
   import time
