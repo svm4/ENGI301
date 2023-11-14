@@ -4,7 +4,7 @@
 SPI Display Library
 --------------------------------------------------------------------------
 License:   
-Copyright 2021 Shannon McGill
+Copyright 2023 - Shannon McGill
 
 Redistribution and use in source and binary forms, with or without 
 modification, are permitted provided that the following conditions are met:
@@ -31,6 +31,10 @@ CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,
 OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE 
 OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 --------------------------------------------------------------------------
+SPI Screen Driver
+
+  This file creates various functions used to interact with an SPI screen. 
+
 Software API:
 
   SPI_DISPLAY()
@@ -75,9 +79,7 @@ import time
 import busio
 import board
 import digitalio
-
 from PIL import Image, ImageDraw, ImageFont
-
 from   adafruit_rgb_display import color565
 import adafruit_rgb_display.ili9341 as ili9341
 
@@ -89,8 +91,13 @@ RIGHT              = 1
 TOP                = 2
 BOTTOM             = 3
 CENTER             = 4
-
 PADDING            = -5                # May need to adjust based on font
+
+# ------------------------------------------------------------------------
+# Global Variables
+# ------------------------------------------------------------------------
+
+# None
 
 # ------------------------------------------------------------------------
 # Functions / Classes
