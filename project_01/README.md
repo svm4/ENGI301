@@ -6,7 +6,7 @@ All hardware information for this project is documented on my Hackster.io page l
 <h2> Software Build Instructions </h2>
 A few of my hardware components require installation of certain libraries in order to run properly. Install these libraries before running my project's code. 
 
-SPI Screen:
+<h3> SPI Screen: </h3>
 - sudo apt-get update
 - sudo pip3 install --upgrade Pillow
 - sudo pip3 install adafruit-circuitpython-busdevice
@@ -15,7 +15,7 @@ SPI Screen:
 
 From here, you can run the screen.py file to test the screen. Note that you should configure pins before running this file. You can copy the spi screen portion of configure_pins.sh into the terminal to do this. 
 
-USB Speaker:
+<h3> USB Speaker: </h3>
 
 - sudo apt-get install alsa-utils libasound2 -y
 - aplay -l
