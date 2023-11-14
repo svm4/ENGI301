@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 """
 --------------------------------------------------------------------------
-Songs Driver
+Songs Library
 --------------------------------------------------------------------------
 License:   
 Copyright 2023 - Shannon McGill
@@ -36,9 +36,9 @@ OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 --------------------------------------------------------------------------
 
-Songs Driver
+Songs Library
 
-  This driver is built to hold songs that can be played on the one-handed piano.
+  This library is built to hold songs that can be played on the one-handed piano.
 
 Software API:
 
@@ -48,7 +48,7 @@ Software API:
     play_song_from_list(index, title, zero_index)
       - Play a song from the song_list given its index
       - zero_index accounts for the fact that Python arrays are indexed starting at zero
-        but the user may put in 1 to indicate the first song (which is index 0)
+        but the user may put in 1 to indicate the first song (which is located at index 0)
 
     add_song(song)
       - Adds a song to the song_list library
@@ -203,7 +203,7 @@ class Song():
     song_list = None
 
     def __init__(self, pin, song_list=None):
-        """ Initialize Variables """
+        """ Initialize buzzer and song_list variables """
         self.buzzer = buzzer.Buzzer(pin)
         
         if song_list is not None:
@@ -215,16 +215,19 @@ class Song():
     
     def play_song_from_list(self, index, title=True, zero_index=False):
         """ Play the song in the song list given the song index.
-            By default Python is zero indexed, convert to 1 indexed list if
-            zero_index is False.
+              By default Python is zero indexed, convert to 1 indexed list if
+              zero_index is False.
         """
-        # Convert to one indexed value
+        # Convert to correct indexed value
         if not zero_index:
             index = index - 1
 
-        # Check if index is within the list bounds            
+        # Check if index is within the list bounds 
+        # Play song if index is within bounds
         if (index >= 0) and (index < len(self.song_list)):
             self.play_song(self.song_list[index], title)
+            
+        # Statement to print if index is not in bounds
         else:
             print("Index out of bounds. Only ")
         
@@ -249,17 +252,19 @@ class Song():
         """ Play a song.
               song  : dictionary with two fields:
                         title : string with title of song
-                        list of notes of the format (freq, length, stop)
+                        notes : list of notes of the format (freq, length, stop)
               title : boolean to indicate if the title should print
               stop  : boolean to indicate if the song should stop at the end 
                 (if not already specified in the song)
         """
+        # Prints title or displays error if there is no title 
         try:
             if title:
                 print(song[TITLE])
         except:
             print("ERROR:  Song does not have a title field")
         
+        # Plays note or displays error if there is no note
         try:
             for note in song[NOTES]:
                 self.buzzer.play(note[0], note[1], note[2])
@@ -297,16 +302,20 @@ class Song():
 
 if __name__ == '__main__':
     
+    # Creates instantiation of Song using buzzer pin
     music = Song("P1_36")
     
     print("Buzzer Music Test")
     
+    # Plays songs in song dictionary
     try:
         for i in range(music.get_song_list_len()):
             print("Play Song {0}".format(i))
             music.play_song_from_list(i, zero_index=True)
+    
+    # Cleanup if user presses key on keyboard
     except KeyboardInterrupt:
-        pass
+        music.cleanup()
         
     music.cleanup()
     
