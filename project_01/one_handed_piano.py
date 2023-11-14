@@ -233,8 +233,11 @@ class OneHandedPiano():
                     self.blue.on()
                     time.sleep(1)
                     return
-                if played_note > (len(notes_for_round)-1):
+                if played_note == (len(notes_for_round)-1):
+                    self.button_pressed_with_error_message(colors_for_round[played_note],notes_for_round[played_note],times_for_round[played_note])
+                    time.sleep(0.1)
                     self.screen.image("Next Round Screen.jpg", 270)
+                    time.sleep(1)
                     break
                 elif self.button_pressed_with_error_message(colors_for_round[played_note],notes_for_round[played_note],times_for_round[played_note]):
                     time.sleep(0.1)
