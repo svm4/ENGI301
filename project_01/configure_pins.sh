@@ -1,9 +1,9 @@
 #!/bin/bash
 # --------------------------------------------------------------------------
-# Combination Lock - Configure Pins
+# One-Handed Piano - Configure Pins
 # --------------------------------------------------------------------------
 # License:   
-# Copyright 2023, Shannon McGill
+# Copyright 2023 - Shannon McGill
 # 
 # Redistribution and use in source and binary forms, with or without 
 # modification, are permitted provided that the following conditions are met:
@@ -31,11 +31,11 @@
 # OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 # --------------------------------------------------------------------------
 # 
-# Configure pins for Combination Lock:
-#   - I2C1
-#   - Button
-#   - LEDs (Red / Green)
-#   - Servo
+# Configure pins for One-Handed Piano:
+#   - Arcade Buttons (GPIO)
+#   - LEDs (GPIO)
+#   - Buzzer (PWM)
+#   - Touchscreen (SPI1)
 # 
 # --------------------------------------------------------------------------
 
@@ -57,10 +57,6 @@ config-pin P2_09 gpio
 
 # Buzzer, PWM1A
 config-pin P1_36 pwm
-
-# Resistive Touch Controller, I2C2
-config-pin P1_26 i2c
-config-pin P1_28 i2c
 
 # Touchscreen, SPI1
 config-pin P2_25 spi
