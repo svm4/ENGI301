@@ -1,10 +1,10 @@
 # -*- coding: utf-8 -*-
 """
 --------------------------------------------------------------------------
-Music
+Songs Driver
 --------------------------------------------------------------------------
 License:   
-Copyright 2023 Shannon McGill
+Copyright 2023 - Shannon McGill
 
 Based on library from
 
@@ -36,21 +36,43 @@ OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 --------------------------------------------------------------------------
 
+Songs Driver
 
+  This driver is built to hold songs that can be played on the one-handed piano.
+
+Software API:
+
+  Song(pin)
+    - Provide pin that the buzzer is connected to
+    
+    play_song_from_list(index, title, zero_index)
+      - Play a song from the song_list given its index
+      - zero_index accounts for the fact that Python arrays are indexed starting at zero
+        but the user may put in 1 to indicate the first song (which is index 0)
+
+    add_song(song)
+      - Adds a song to the song_list library
+
+    get_song_list_len()
+      - Returns the length of the song list    
+  
+    play_song(song, title, stop)
+      - Plays song from song_list
+      - title will print the title of the song, while stop will stop the song at the end
+      
+    play_note(note, length, stop)
+      - Plays a note for a given length
 
 """
 import sys
-
 import time
 import math
 import random
-
 import threaded_button
 import led
 import color_button
 import vlc
 import buzzer 
-# potentially add speaker
 # ------------------------------------------------------------------------
 # Global variables
 # ------------------------------------------------------------------------
@@ -176,11 +198,14 @@ SONGS    = [
 # Main Tasks
 # ------------------------------------------------------------------------
 
-class Song(): #why does this not have pin as argument?
-    speaker           = None #change to speaker
-    song_list         = None
+class Song(): 
+    buzzer    = None 
+    song_list = None
 
-    def __init__(self, speaker=None, song_list=None):
+    def __init__(self, pin, song_list=None):
+        """ Initialize Variables """
+        self.buzzer = buzzer.Buzzer(pin)
+        
         if song_list is not None:
             self.song_list = song_list 
         else:
@@ -190,7 +215,7 @@ class Song(): #why does this not have pin as argument?
     
     def play_song_from_list(self, index, title=True, zero_index=False):
         """ Play the song in the song list given the song index.
-            By default Python is zero indexed, convert to 1 indexed list 
+            By default Python is zero indexed, convert to 1 indexed list if
             zero_index is False.
         """
         # Convert to one indexed value
@@ -237,12 +262,12 @@ class Song(): #why does this not have pin as argument?
         
         try:
             for note in song[NOTES]:
-                self.vlc.MediaPlayer(note[0], note[1], note[2])
+                self.buzzer.play(note[0], note[1], note[2])
         except:
             print("ERROR:  Song does not have notes field")
         
         if stop:
-            self.buzzer.stop() #need to fix
+            self.buzzer.stop() 
         
     # End def
     
@@ -254,16 +279,17 @@ class Song(): #why does this not have pin as argument?
         if note is None:
             time.sleep(length)
         else:
-            self.vlc.MediaPlayer(note, length, stop)
+            self.buzzer.play(note, length, stop)
             
     # end def
     
     
     def cleanup(self):
-        self.buzzer.cleanup()
+        self.buzzer.buzzer_cleanup()
     # End def
 
 # End class
+
 
 # ------------------------------------------------------------------------
 # Main script
@@ -271,7 +297,7 @@ class Song(): #why does this not have pin as argument?
 
 if __name__ == '__main__':
     
-    music = Song()
+    music = Song("P1_36")
     
     print("Buzzer Music Test")
     
@@ -279,7 +305,7 @@ if __name__ == '__main__':
         for i in range(music.get_song_list_len()):
             print("Play Song {0}".format(i))
             music.play_song_from_list(i, zero_index=True)
-    except KeyBoardException:
+    except KeyboardInterrupt:
         pass
         
     music.cleanup()
