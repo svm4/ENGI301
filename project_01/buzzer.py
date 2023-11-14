@@ -4,7 +4,7 @@
 Buzzer
 --------------------------------------------------------------------------
 License:   
-Copyright 2021-2023 Shannon McGill
+Copyright 2023 - Shannon McGill
 
 Based on library from
 
@@ -35,11 +35,11 @@ CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,
 OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE 
 OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 --------------------------------------------------------------------------
-This file provides an interface to a PWM controllered buzzer.
+This file provides an interface to a PWM controlled buzzer.
   - Ex:  https://www.adafruit.com/product/1536
 
 
-APIs:
+Software API:
   - Buzzer(pin)
     - play(frequency, length=1.0, stop=False)
       - Plays the frequency for the length of time
@@ -52,13 +52,13 @@ APIs:
 
 """
 import time
-
 import Adafruit_BBIO.PWM as PWM
 
 # ------------------------------------------------------------------------
 # Global variables
 # ------------------------------------------------------------------------
 
+# None
 
 # ------------------------------------------------------------------------
 # Main Tasks
@@ -82,7 +82,6 @@ class Buzzer():
             stop      - Stop the buzzer (will cause breaks between tones)
         """
         if frequency is not None:
-            # !!! FIX !!! 
             print("Playing {0}".format(frequency))
             PWM.start(channel=self.pin, duty_cycle=50, frequency=frequency, polarity=0)
 
@@ -99,10 +98,7 @@ class Buzzer():
         """ Stops the buzzer (will cause breaks between tones)
             length    - Time in seconds (default 0.0 seconds)
         """
-        # !!! FIX !!! 
-        # print("Stopping the buzzer")
         PWM.stop(self.pin)
-
         time.sleep(length)
         
     # End def
@@ -125,7 +121,7 @@ class Buzzer():
 if __name__ == '__main__':
     print("Buzzer Test")
     
-    buzzer = Buzzer("P2_1")
+    buzzer = Buzzer("P1_36")
     
     print("Play tone")
     
