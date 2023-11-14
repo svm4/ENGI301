@@ -35,7 +35,9 @@ CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,
 OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE 
 OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 --------------------------------------------------------------------------
-This file provides an interface to a PWM controlled buzzer.
+Buzzer Driver
+
+  This file provides an interface to a PWM controlled buzzer.
   - Ex:  https://www.adafruit.com/product/1536
 
 
@@ -53,6 +55,12 @@ Software API:
 """
 import time
 import Adafruit_BBIO.PWM as PWM
+
+# ------------------------------------------------------------------------
+# Constants
+# ------------------------------------------------------------------------
+
+# None
 
 # ------------------------------------------------------------------------
 # Global variables
@@ -113,6 +121,7 @@ class Buzzer():
     # End def
     
 # End class
+
 
 # ------------------------------------------------------------------------
 # Main script
