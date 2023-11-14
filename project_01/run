@@ -1,9 +1,9 @@
 #!/bin/bash
 # --------------------------------------------------------------------------
-# Combination Lock - Run Script
+# One-Handed Piano - Run Script
 # --------------------------------------------------------------------------
 # License:   
-# Copyright 2023, Shannon McGill
+# Copyright 2023 - Shannon McGill
 # 
 # Redistribution and use in source and binary forms, with or without 
 # modification, are permitted provided that the following conditions are met:
@@ -31,7 +31,7 @@
 # OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 # --------------------------------------------------------------------------
 # 
-# Run Combination Lock in /var/lib/cloud9/ENGI301/python/combo_lock
+# Run One-Handed Piano in /var/lib/cloud9/ENGI301/project_01
 # 
 # --------------------------------------------------------------------------
 
@@ -39,16 +39,7 @@ cd /var/lib/cloud9/ENGI301/project_01
 
 ./configure_pins.sh
 
-#finish when code is complete
-#dirs=(
-   # '/var/lib/cloud9/ENGI301/python/ht16k33:'
-   # '/var/lib/cloud9/ENGI301/python/servo:'
-   # '/var/lib/cloud9/ENGI301/python/button:'
-   # '/var/lib/cloud9/ENGI301/python/led:'
-   # '/var/lib/cloud9/ENGI301/python/potentiometer'
-#)
-
-# PYTHONPATH=$(IFS=; echo "${dirs[*]}") python3 one_handed_piano.py
+PYTHONPATH=/var/lib/cloud9/ENGI301/project_01 sudo python3 one_handed_piano.py
 
 
 
