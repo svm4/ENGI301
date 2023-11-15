@@ -28,7 +28,6 @@ From here, you can run the screen.py file to test the screen. Note that you shou
 - flite -t Hello!
 - sudo apt-get install mplayer -y
 - mplayer file_example_MP3_700KB.mp3
-  - Download the above file from https://file-examples.com/index.php/sample-audio-files/
 - sudo pip3 install sounddevice
 - sudo pip3 install numpy
 - sudo pip3 install libportaudio2
