@@ -33,7 +33,6 @@ From here, you can run the screen.py file to test the screen. Note that you shou
 - sudo pip3 install numpy
 - sudo pip3 install libportaudio2
 - sudo pip3 install libasound-dev
-- [change to sudo]
 
 From here, you can test the speaker's ability to play a tone by running the following commands in the terminal.
 
