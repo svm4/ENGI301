@@ -42,6 +42,8 @@ From here, you can test the speaker's ability to play a tone by running the foll
 <h2> Software Operation Instructions </h2>
 To run the code for my project, complete the following steps.
 
-- Clone this Github repository to your computer.
-- Change directories to the project_01 directory using the cd command.
-- Type sudo ./run into the command terminal, and the project will run!
+- git clone https://github/com/svm4/ENGI301/project_01
+- cd /var/lib/cloud9/ENGI301/project_01
+- sudo ./run
+  - If this does not work, the file may not be executable. Run the following line to solve the issue, and then you should be able to run the code using the sudo ./run command.
+    - chmod 755 run
