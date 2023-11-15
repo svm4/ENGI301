@@ -23,7 +23,7 @@ From here, you can run the screen.py file to test the screen. Note that you shou
   - card 1 should show the USB device, while device 0 should say USB audio
 - nano ~/.asoundrc
   - Add the following to your sound configuration file
-      - [insert image]
+      - ![image](https://github.com/svm4/ENGI301/assets/144633219/e0c33083-2f0f-4af5-983d-27628d1ea3e9)
 - sudo apt-get install flite -y
 - flite -t Hello!
 - sudo apt-get install mplayer -y
@@ -41,4 +41,8 @@ From here, you can test the speaker's ability to play a tone by running the foll
 - sounddevice.play(note, 44100)
   
 <h2> Software Operation Instructions </h2>
-[finish]
+To run the code for my project, complete the following steps.
+
+- Clone this Github repository to your computer.
+- Change directories to the project_01 directory using the cd command.
+- Type sudo ./run into the command terminal, and the project will run!
