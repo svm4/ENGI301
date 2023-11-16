@@ -49,7 +49,7 @@ Software API:
     - stop(length=0.0)
       - Stop the buzzer (will cause breaks between tones)
       
-    - cleanup()
+    - buzzer_cleanup()
       - Stop the buzzer and clean up the PWM
 
 """
