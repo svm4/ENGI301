@@ -38,7 +38,7 @@ buttons in my project.
 
 Software API:
 
-  ColorButton(led_pin, button_pin)
+  ColorButton(button_pin,led_pin)
     - Provide pins that the LED and button are connected to
     
     button_cleanup()
