@@ -35,7 +35,7 @@ From here, you can run the screen.py file to test the screen. Note that you shou
 
 From here, you can test the speaker's ability to play a tone by running the following commands in the terminal.
 
-- note = numpy.sin(2 * numpy * 440 * numpy.arange(0, 1, 1/44100)
+- note = numpy.sin(2 * numpy * 440 * numpy.arange(0, 1, 1/44100))
 - sounddevice.play(note, 44100)
   
 <h2> Software Operation Instructions </h2>
