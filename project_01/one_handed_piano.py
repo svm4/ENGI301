@@ -84,6 +84,8 @@ Requirements:
     - Illuminates buttons for a given round in the correct sequence for users to memorize
     - Users play the buttons in the correct order
     - The round is advanced, and the process continues to add on four notes each time until the song is learned
+    - Displays error message if the user plays an incorrect note
+    - Displays timeout message if the user waits longer than five seconds to play note
     
   - Practice Mode
     - Users are free to press the buttons as they wish
@@ -331,7 +333,7 @@ class OneHandedPiano():
         initial_time=time.time()
         
         # Runs as long as timeout has not been exceeded 
-        while time.time()-initial_time < self.timeout:
+        while time.time()-initial_time <= self.timeout:
             for b in self.button_list:
                 if b.is_pressed():
                     
