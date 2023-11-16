@@ -40,10 +40,13 @@ Software API:
 
   ColorButton(led_pin, button_pin)
     - Provide pins that the LED and button are connected to
+    
+    button_cleanup()
+      - Cleans up button by turning off LED
 
 """
-import led 
 import threaded_button 
+import led 
 
 # ------------------------------------------------------------------------
 # Constants
@@ -61,7 +64,7 @@ import threaded_button
 # Functions / Classes
 # ------------------------------------------------------------------------
 
-class ColorButton(led.LED, threaded_button.ThreadedButton):
+class ColorButton(threaded_button.ThreadedButton, led.LED):
     """ Color Button Class """
     
     def __init__(self, button_pin, led_pin):
