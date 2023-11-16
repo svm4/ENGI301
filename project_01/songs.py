@@ -62,6 +62,9 @@ Software API:
       
     play_note(note, length, stop)
       - Plays a note for a given length
+      
+    cleanup()
+      - Stops buzzer and cleans up PWM
 
 """
 import sys
