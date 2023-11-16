@@ -46,6 +46,9 @@ Software API:
     
     fill(color)
       - Fills the display with the given (R, G, B) color tuple
+      
+    _get_dimensions(rotation)
+      - Returns width and height of display
     
     image(filename, rotation=90)
       - Erases display and shows image from filename
