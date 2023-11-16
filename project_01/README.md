@@ -46,3 +46,13 @@ To run the code for my project, complete the following steps.
 - sudo ./run
   - If this does not work, the file may not be executable. Run the following line to solve the issue, and then you should be able to run the code using the sudo ./run command.
     - chmod 755 run
+
+To make the code run automatically on boot, run the following commands.
+
+- sudo crontab -e
+- @reboot sleep 30 && sh /var/lib/cloud9/ENGI301/project_01/run  > /var/lib/cloud9/logs/cronlog 2>&1
+  - Exit and Save
+
+You can run the following command to restart the PocketBeagle and test that the code runs automatically on boot.
+
+- sudo reboot
