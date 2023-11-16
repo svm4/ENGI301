@@ -75,6 +75,9 @@ Software API:
       
     stop_note()
       - Stops a note that is being played
+      
+    cleanup()
+      - Cleans up hardware and exits program
 
 Requirements:
   - Learn Mode
