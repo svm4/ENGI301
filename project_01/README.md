@@ -52,3 +52,5 @@ To make the code run automatically on boot, run the following commands.
 - sudo crontab -e
 - @reboot sleep 30 && sh /var/lib/cloud9/ENGI301/project_01/run  > /var/lib/cloud9/logs/cronlog 2>&1
   - Exit and Save
+
+ You can run sudo reboot to restart the PocketBeagle and test that the code runs automatically on boot.
