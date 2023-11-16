@@ -48,7 +48,10 @@ Software API:
       - Turn the LED on
 
     off()
-      - Turn the LED off    
+      - Turn the LED off 
+      
+    led_cleanup()
+      - Cleans up LED by turning it off
 
 """
 import Adafruit_BBIO.GPIO as GPIO
