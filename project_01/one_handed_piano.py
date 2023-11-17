@@ -295,28 +295,37 @@ class OneHandedPiano():
                 
                 # Displays song learned screen once the user plays through all the notes in the song
                 if (played_note == (len(self.notes)-1) and current_round == rounds):
-                    self.button_pressed_with_error_message(colors_for_round[played_note],notes_for_round[played_note])
-                    time.sleep(0.1)
-                    self.screen.image("Song Learned Screen.jpg", 270) 
-                    self.red.on()
-                    self.green.on()
-                    self.blue.on()
-                    time.sleep(0.1)
-                    return
+                    if self.button_pressed_with_error_message(colors_for_round[played_note],notes_for_round[played_note]):
+                        time.sleep(0.1)
+                        self.screen.image("Song Learned Screen.jpg", 270) 
+                        self.red.on()
+                        self.green.on()
+                        self.blue.on()
+                        time.sleep(0.1)
+                        return
+                
+                    # Returns to run function if wrong note was played or user does not press a button for over five seconds
+                    else:
+                        return
                 
                 # Advances to the next round once the user plays through all the notes in the song
                 if played_note == (len(notes_for_round)-1):
-                    self.button_pressed_with_error_message(colors_for_round[played_note],notes_for_round[played_note])
-                    time.sleep(0.1)
-                    self.screen.image("Next Round Screen.jpg", 270)
-                    time.sleep(1)
-                    break
+                    if self.button_pressed_with_error_message(colors_for_round[played_note],notes_for_round[played_note]):
+                        time.sleep(0.1)
+                        self.screen.image("Next Round Screen.jpg", 270)
+                        time.sleep(1)
+                        break
+                    
+                    # Returns to run function if wrong note was played or user does not press a button for over five seconds 
+                    else:
+                        return
                 
                 # Plays note and illuminates button if user presses correct button
                 elif self.button_pressed_with_error_message(colors_for_round[played_note],notes_for_round[played_note]):
                     time.sleep(0.1)
                     played_note=played_note+1 # Advances to the next note once a note is played
                     
+                # Returns to run function if wrong note was played or user does not press a button for over five seconds
                 else:
                     return
             current_round=current_round+1 # Advances to the next round once a round is learned
