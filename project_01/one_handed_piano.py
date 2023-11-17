@@ -308,7 +308,7 @@ class OneHandedPiano():
                     else:
                         return
                 
-                # Advances to the next round once the user plays through all the notes in the song
+                # Advances to the next round once the user plays through all the notes in the round
                 if played_note == (len(notes_for_round)-1):
                     if self.button_pressed_with_error_message(colors_for_round[played_note],notes_for_round[played_note]):
                         time.sleep(0.1)
